@@ -1,0 +1,3 @@
+{% extends 'base.html' %}{% block cuerpo %}<h1>Proveedores</h1>
+<form method="post" class="card"><input type="hidden" name="csrf" value="{{ csrf }}"><div class="fila"><div><label>Nombre *</label><input name="nombre" required></div><div><label>RIF</label><input name="rif"></div><div><label>Teléfono</label><input name="telefono"></div><div><label>Dirección</label><input name="direccion"></div></div><p><button class="btn">Registrar proveedor</button></p></form>
+<div class="tabla-wrap"><table><tr><th>Nombre</th><th>RIF</th><th>Teléfono</th><th>Dirección</th></tr>{% for r in rows %}<tr><td>{{ r.nombre }}</td><td>{{ r.rif or '' }}</td><td>{{ r.telefono or '' }}</td><td>{{ r.direccion or '' }}</td></tr>{% endfor %}</table></div>{% endblock %}

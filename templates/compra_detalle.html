@@ -1,0 +1,5 @@
+{% extends 'base.html' %}{% block cuerpo %}<h1>Compra #{{ c.id_compra }}</h1>
+<div class="card"><b>Fecha:</b> {{ c.fecha }} &nbsp; <b>Proveedor:</b> {{ c.proveedor }} &nbsp; <b>Registró:</b> {{ c.usuario }}</div>
+<div class="tabla-wrap"><table><tr><th>Código</th><th>Producto</th><th class="n">Cantidad</th><th class="n">Costo unit.</th><th class="n">Subtotal</th></tr>
+{% for d in det %}<tr><td>{{ d.codigo }}</td><td>{{ d.nombre }}</td><td class="n">{{ d.cantidad|qty }}</td><td class="n">{{ d.costo_unitario|money }}</td><td class="n">{{ (d.cantidad*d.costo_unitario)|money }}</td></tr>{% endfor %}</table></div>
+<div class="total">Total: {{ c.total|money }}</div><a class="btn sec" href="{{ url_for('compras') }}">Volver</a>{% endblock %}

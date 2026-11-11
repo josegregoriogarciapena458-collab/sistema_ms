@@ -1,0 +1,3 @@
+{% extends 'base.html' %}{% block cuerpo %}<h1>Categorías</h1>
+<form method="post" class="barra"><input type="hidden" name="csrf" value="{{ csrf }}"><div><label>Nueva categoría</label><input name="nombre" required></div><button class="btn">Agregar</button></form>
+<div class="tabla-wrap"><table><tr><th>Categoría</th><th class="n">Productos</th></tr>{% for r in rows %}<tr><td>{{ r.nombre }}</td><td class="n">{{ r.n }}</td></tr>{% endfor %}</table></div>{% endblock %}

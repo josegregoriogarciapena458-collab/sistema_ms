@@ -1,0 +1,5 @@
+{% extends 'base.html' %}{% block cuerpo %}<h1>Historial de movimientos de inventario</h1>
+<form class="barra" method="get"><div><label>Producto</label><select name="producto"><option value="">Todos</option>{% for p in prods %}<option value="{{ p.id_producto }}" {{ 'selected' if pid==p.id_producto|string }}>{{ p.nombre }}</option>{% endfor %}</select></div><button class="btn">Filtrar</button></form>
+<div class="tabla-wrap"><table><tr><th>Fecha</th><th>Producto</th><th>Tipo</th><th class="n">Cantidad</th><th>Referencia</th><th>Usuario</th></tr>
+{% for r in rows %}<tr><td>{{ r.fecha }}</td><td>{{ r.codigo }} · {{ r.producto }}</td><td><span class="tag {{ 'ok' if r.tipo=='ENTRADA' else ('warn' if r.tipo=='SALIDA' else '') }}">{{ r.tipo|lower }}</span></td><td class="n">{{ r.cantidad|qty }}</td><td>{{ r.referencia or '' }}</td><td>{{ r.usuario }}</td></tr>
+{% else %}<tr><td colspan="6">Sin movimientos.</td></tr>{% endfor %}</table></div>{% endblock %}

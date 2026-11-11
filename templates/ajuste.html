@@ -1,0 +1,7 @@
+{% extends 'base.html' %}{% block cuerpo %}<h1>Ajustar existencia</h1>
+<form method="post" class="card" style="max-width:520px"><input type="hidden" name="csrf" value="{{ csrf }}">
+<p><b>{{ p.codigo }} · {{ p.nombre }}</b><br>Existencia actual: <b>{{ p.stock_actual|qty }} {{ p.unidad_medida }}</b></p>
+<label>Existencia real contada *</label><input name="nuevo_stock" type="number" step="0.01" min="0" required>
+<label>Motivo del ajuste *</label><input name="motivo" maxlength="30" placeholder="Conteo físico, merma, daño…" required>
+<p><button class="btn">Aplicar ajuste</button> <a class="btn sec" href="{{ url_for('productos') }}">Cancelar</a></p>
+<small>El ajuste queda registrado en el historial de movimientos.</small></form>{% endblock %}

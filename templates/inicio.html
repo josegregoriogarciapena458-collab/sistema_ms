@@ -1,0 +1,12 @@
+{% extends 'base.html' %}{% block cuerpo %}<h1>Panel principal</h1>
+<div class="grid"><div class="kpi"><b>{{ v.t|money }}</b><span>Ventas de hoy ({{ v.n }} ventas)</span></div>
+<div class="kpi"><b>{{ nprod }}</b><span>Productos e insumos activos</span></div>
+<div class="kpi"><b style="color:{{ '#b26a00' if bajos else '#1e7b34' }}">{{ bajos|length }}</b><span>Con existencias bajas</span></div></div>
+<h2>Existencias bajas</h2>{% if bajos %}<div class="tabla-wrap"><table><tr><th>Código</th><th>Producto</th><th class="n">Existencia</th><th class="n">Mínimo</th></tr>
+{% for b in bajos %}<tr class="bajo"><td>{{ b.codigo }}</td><td>{{ b.nombre }}</td><td class="n">{{ b.stock_actual|qty }} {{ b.unidad_medida }}</td><td class="n">{{ b.stock_minimo|qty }}</td></tr>{% endfor %}</table></div>
+{% else %}<div class="card">Todos los productos están por encima del mínimo.</div>{% endif %}
+<h2>Últimas ventas</h2><div class="tabla-wrap"><table><tr><th>N.º</th><th>Fecha</th><th>Atendió</th><th>Pago</th><th class="n">Total</th></tr>
+{% for r in ult %}<tr><td><a href="{{ url_for('venta_detalle', vid=r.id_venta) }}">#{{ r.id_venta }}</a></td><td>{{ r.fecha }}</td><td>{{ r.usuario }}</td><td>{{ r.metodo_pago }}</td><td class="n">{{ r.total|money }}</td></tr>
+{% else %}<tr><td colspan="5">Aún no hay ventas registradas.</td></tr>{% endfor %}</table></div>
+{% if sem %}<h2>Ventas de los últimos 7 días</h2><div class="card">{% set mx = (sem|map(attribute='total')|max) or 1 %}
+{% for d in sem %}<div style="display:grid;grid-template-columns:100px 1fr 90px;gap:10px;align-items:center;margin:6px 0"><span>{{ d.dia }}</span><div class="bar" style="width:{{ (d.total/mx*100)|round }}%"></div><b class="n" style="text-align:right">{{ d.total|money }}</b></div>{% endfor %}</div>{% endif %}{% endblock %}

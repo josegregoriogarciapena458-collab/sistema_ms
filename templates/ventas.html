@@ -1,0 +1,5 @@
+{% extends 'base.html' %}{% block cuerpo %}<h1>Ventas</h1>
+<form class="barra" method="get"><div><label>Desde</label><input type="date" name="desde" value="{{ desde }}"></div><div><label>Hasta</label><input type="date" name="hasta" value="{{ hasta }}"></div><button class="btn">Filtrar</button><a class="btn sec" href="{{ url_for('venta_nueva') }}">+ Nueva venta</a></form>
+<div class="tabla-wrap"><table><tr><th>N.º</th><th>Fecha</th><th>Cliente</th><th>Atendió</th><th>Pago</th><th class="n">Total</th></tr>
+{% for r in rows %}<tr><td><a href="{{ url_for('venta_detalle', vid=r.id_venta) }}">#{{ r.id_venta }}</a></td><td>{{ r.fecha }}</td><td>{{ r.cliente or 'Consumidor final' }}</td><td>{{ r.usuario }}</td><td>{{ r.metodo_pago }}</td><td class="n">{{ r.total|money }}</td></tr>
+{% else %}<tr><td colspan="6">No hay ventas en el período.</td></tr>{% endfor %}</table></div><div class="total">Total listado: {{ total|money }}</div>{% endblock %}

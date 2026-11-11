@@ -1,0 +1,3 @@
+{% extends 'base.html' %}{% block cuerpo %}<h1>Clientes</h1>
+<form method="post" class="card"><input type="hidden" name="csrf" value="{{ csrf }}"><div class="fila"><div><label>Nombre *</label><input name="nombre" required></div><div><label>Cédula / RIF</label><input name="cedula_rif"></div><div><label>Teléfono</label><input name="telefono"></div></div><p><button class="btn">Registrar cliente</button></p></form>
+<div class="tabla-wrap"><table><tr><th>Nombre</th><th>Cédula / RIF</th><th>Teléfono</th></tr>{% for r in rows %}<tr><td>{{ r.nombre }}</td><td>{{ r.cedula_rif or '' }}</td><td>{{ r.telefono or '' }}</td></tr>{% endfor %}</table></div>{% endblock %}

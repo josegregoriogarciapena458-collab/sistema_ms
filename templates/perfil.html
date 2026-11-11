@@ -1,0 +1,2 @@
+{% extends 'base.html' %}{% block cuerpo %}<h1>Mi perfil</h1><form method="post" class="card" style="max-width:420px"><input type="hidden" name="csrf" value="{{ csrf }}">
+<p><b>{{ user.nombre }}</b> · usuario <b>{{ user.login }}</b> · rol {{ user.rol|lower }}</p><label>Contraseña actual</label><input type="password" name="actual" required><label>Nueva contraseña (mín. 6)</label><input type="password" name="nueva" required><p><button class="btn">Cambiar contraseña</button></p></form>{% endblock %}

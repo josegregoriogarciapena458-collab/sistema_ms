@@ -1,0 +1,19 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block titulo %}Sistema M&S{% endblock %} · Compañía M&S, C.A.</title><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head><body>
+{% if user %}<header><div class="marca">Compañía M&amp;S, C.A.<small>Control de Inventarios y Ventas</small></div>
+<nav>{% set ep = request.endpoint or '' %}
+<a href="{{ url_for('inicio') }}" class="{{ 'act' if ep=='inicio' }}">Inicio</a>
+<a href="{{ url_for('venta_nueva') }}" class="{{ 'act' if ep=='venta_nueva' }}">Nueva venta</a>
+<a href="{{ url_for('ventas') }}" class="{{ 'act' if ep.startswith('venta') and ep!='venta_nueva' }}">Ventas</a>
+<a href="{{ url_for('productos') }}" class="{{ 'act' if ep.startswith('producto') }}">Inventario</a>
+<a href="{{ url_for('clientes') }}" class="{{ 'act' if ep=='clientes' }}">Clientes</a>
+{% if user.rol=='ADMIN' %}<a href="{{ url_for('compras') }}" class="{{ 'act' if ep.startswith('compra') }}">Compras</a>
+<a href="{{ url_for('proveedores') }}" class="{{ 'act' if ep=='proveedores' }}">Proveedores</a>
+<a href="{{ url_for('categorias') }}" class="{{ 'act' if ep=='categorias' }}">Categorías</a>
+<a href="{{ url_for('movimientos') }}" class="{{ 'act' if ep=='movimientos' }}">Movimientos</a>
+<a href="{{ url_for('reportes') }}" class="{{ 'act' if ep=='reportes' }}">Reportes</a>
+<a href="{{ url_for('usuarios') }}" class="{{ 'act' if ep=='usuarios' }}">Usuarios</a>{% endif %}</nav>
+<div class="sesion"><a href="{{ url_for('perfil') }}" style="color:#fff">{{ user.nombre }} ({{ user.rol|lower }})</a>
+<form method="post" action="{{ url_for('logout') }}"><input type="hidden" name="csrf" value="{{ csrf }}"><button>Salir</button></form></div></header>{% endif %}
+<main>{% with m = get_flashed_messages(with_categories=true) %}{% for c, t in m %}<div class="flash {{ c }}">{{ t }}</div>{% endfor %}{% endwith %}
+{% block cuerpo %}{% endblock %}</main><div class="pie">Sistema automatizado de base de datos · Proyecto Socio Tecnológico · UNERMB</div></body></html>

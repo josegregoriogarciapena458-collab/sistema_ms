@@ -1,0 +1,4 @@
+{% extends 'base.html' %}{% block cuerpo %}<h1>Compras</h1><p><a class="btn" href="{{ url_for('compra_nueva') }}">+ Registrar compra</a></p>
+<div class="tabla-wrap"><table><tr><th>N.º</th><th>Fecha</th><th>Proveedor</th><th>Registró</th><th class="n">Total</th></tr>
+{% for r in rows %}<tr><td><a href="{{ url_for('compra_detalle', cid=r.id_compra) }}">#{{ r.id_compra }}</a></td><td>{{ r.fecha }}</td><td>{{ r.proveedor }}</td><td>{{ r.usuario }}</td><td class="n">{{ r.total|money }}</td></tr>
+{% else %}<tr><td colspan="5">Aún no hay compras registradas.</td></tr>{% endfor %}</table></div>{% endblock %}

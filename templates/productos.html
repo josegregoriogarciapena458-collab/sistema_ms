@@ -1,0 +1,11 @@
+{% extends 'base.html' %}{% block cuerpo %}<h1>Inventario</h1>
+<form class="barra" method="get"><div><label>Buscar</label><input name="q" value="{{ q }}" placeholder="Código o nombre"></div>
+<div><label>Tipo</label><select name="tipo"><option value="">Todos</option><option value="PRODUCTO" {{ 'selected' if tipo=='PRODUCTO' }}>Productos</option><option value="INSUMO" {{ 'selected' if tipo=='INSUMO' }}>Insumos</option></select></div>
+<div><label><input type="checkbox" name="bajo" value="1" style="width:auto" {{ 'checked' if bajo }}> Solo existencias bajas</label></div>
+<button class="btn">Filtrar</button>{% if user.rol=='ADMIN' %}<a class="btn sec" href="{{ url_for('producto_nuevo') }}">+ Nuevo producto</a><a class="btn sec" href="{{ url_for('inventario_xlsx') }}">Exportar a Excel</a>{% endif %}</form>
+<div class="tabla-wrap"><table><tr><th>Código</th><th>Producto</th><th>Categoría</th><th>Tipo</th><th class="n">Existencia</th><th class="n">Mínimo</th><th class="n">Precio</th><th class="n">Costo</th>{% if user.rol=='ADMIN' %}<th></th>{% endif %}</tr>
+{% for p in rows %}<tr class="{{ 'inactivo' if not p.activo else ('bajo' if p.stock_actual<=p.stock_minimo) }}"><td>{{ p.codigo }}</td><td>{{ p.nombre }}{% if not p.activo %} <span class="tag no">inactivo</span>{% endif %}</td><td>{{ p.categoria }}</td><td><span class="tag">{{ p.tipo|lower }}</span></td>
+<td class="n"><b>{{ p.stock_actual|qty }}</b> {{ p.unidad_medida }}</td><td class="n">{{ p.stock_minimo|qty }}</td><td class="n">{{ p.precio_venta|money if p.tipo=='PRODUCTO' else '—' }}</td><td class="n">{{ p.costo|money }}</td>
+{% if user.rol=='ADMIN' %}<td style="white-space:nowrap"><a class="btn sec peq" href="{{ url_for('producto_editar', pid=p.id_producto) }}">Editar</a> <a class="btn sec peq" href="{{ url_for('producto_ajuste', pid=p.id_producto) }}">Ajustar</a>
+<form class="inline" method="post" action="{{ url_for('producto_estado', pid=p.id_producto) }}"><input type="hidden" name="csrf" value="{{ csrf }}"><button class="btn sec peq">{{ 'Desactivar' if p.activo else 'Activar' }}</button></form></td>{% endif %}</tr>
+{% else %}<tr><td colspan="9">No hay resultados.</td></tr>{% endfor %}</table></div>{% endblock %}
